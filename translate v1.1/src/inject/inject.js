@@ -1,20 +1,52 @@
-/*chrome.extension.sendMessage({}, function(response) {
-	var readyStateCheckInterval = setInterval(function() {
-	if (document.readyState === "complete") {
-		clearInterval(readyStateCheckInterval);
+var trigger_key = 74; //ASCII key code for the letter 'J'
+var positionX = 0;
+var positionY = 0;
+ 
+if (window == top) {
+ window.addEventListener('keyup', doKeyPress, false);
+ window.addEventListener('mouseup',createPopupWindow, false);
+}
+ 
+function doKeyPress(e){
+ if (e.keyCode == trigger_key){
+ 	var selObj = window.getSelection();
+ 	console.log(selObj);
+ 	var sel = window.getSelection().toString();
+ 	if(sel.length) {
+ 		//alert("Contentscript отправил сообщение background script: '" + sel  + "'");
+ 		chrome.extension.sendRequest({message: sel});
+ 	}  
+  
+ }
+}
 
-		// ----------------------------------------------------------
-		// This part of the script triggers when page is done loading
-		console.log("Hello. This message was sent from scripts/inject.js");
-		// ----------------------------------------------------------
+function createPopupWindow(event) {
+	positionX = event.clientX;
+	positionY = event.clientY;
+}
+ 
+chrome.runtime.onMessage.addListener(
+ function(request, sender) {
+ 	/*var newDiv = document.createElement('div')
+ 	newDiv.id = "newDiv";
+	newDiv.style.cssText = 'position:absolute;width:200px;height:200px;-moz-border-radius:100px;border:1px  solid #ddd;-moz-box-shadow: 0px 0px 8px  #fff;display:none;';
+ 	newDiv.style.top = positionY;
+ 	newDiv.style.left = positionX;
+	newDiv.innerHTML = "транскрипция -- " + request.word + "\n\r" + 
+  		"слово -- " + request.reading + "\n\r" + 
+  		"перевод -- " + request.english_definitions + "\n\r" + 
+  		"часть речи -- " + request.part_of_speech ;
 
-	}
-	}, 10);
-});*/
-document.addEventListener('mouseup',function(event)
-{
-    var sel = window.getSelection().toString();
+  	var body = document.querySelector("body");
+  	body.style.position = "relative";	
+  	console.log(body);
 
-    if(sel.length)
-        chrome.extension.sendRequest({'message':'setText','data': sel},function(response){})
-})
+  	body.appendChild(newDiv);*/
+
+  alert("транскрипция -- " + request.word + "\n\r" + 
+  		"слово -- " + request.reading + "\n\r" + 
+  		"перевод -- " + request.english_definitions + "\n\r" + 
+  		"часть речи -- " + request.part_of_speech );  
+  }
+
+);

@@ -1,45 +1,39 @@
-// if you checked "fancy-settings" in extensionizr.com, uncomment this lines
 
-// var settings = new Store("settings", {
-//     "sample_setting": "This is how you use Store.js to remember values"
-// });
-
-
-//example of using a message handler from the inject scripts
-/*chrome.extension.onMessage.addListener(
-  function(request, sender, sendResponse) {
-  	chrome.pageAction.show(sender.tab.id);
-    sendResponse();
-  });*/
-var seltext = null;
-
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
+chrome.extension.onRequest.addListener(function(request, sender)
 {
-    switch(request.message)
-    {
-        case 'setText':
-            window.seltext = request.data
-        break;
-
-        default:
-            sendResponse({data: 'Invalid arguments'});
-        break;
-    }
-});
-
-
-function savetext(info,tab)
-{
+    //alert("Background got message from contentscript:'" + request.message + "'");
+    var words = request.message;
     var jax = new XMLHttpRequest();
-    jax.open("GET","http://beta.jisho.org/api/v1/search/words?keyword=" + seltext, true);
-    /*jax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");*/
+    jax.open("GET","http://beta.jisho.org/api/v1/search/words?keyword=" + request.message, true);    
     jax.send();
-    jax.onreadystatechange = function() { if(jax.readyState==4) { alert(jax.responseText);  }}
-}
+    jax.onreadystatechange = function() { 
+        if(jax.readyState==4) {
+          var responseText = jax.responseText; 
+          //alert(responseText); 
+          var responseObject = JSON.parse(responseText);
+          var data = responseObject.data;
+          var current = data[0];
+          returnMessage(current);
+        }
+    }
 
-var contexts = ["selection"];
-for (var i = 0; i < contexts.length; i++)
+ 
+});
+ 
+function returnMessage(current)
 {
-    var context = contexts[i];
-    chrome.contextMenus.create({"title": "Send to Server", "contexts":[context], "onclick": savetext});  
+    var japanese = current.japanese[0];
+    var tags = current.tags[0];
+    var senses = current.senses[0];
+    var english_definitions = senses.english_definitions;
+    var part_of_speech = senses.part_of_speech;
+    chrome.tabs.getSelected(null, function(tab) {
+      
+        //alert("Background script send message to contentscript:'");
+        chrome.tabs.sendMessage(tab.id, {word: japanese.word,
+                                         reading: japanese.reading,
+                                         tags: tags,
+                                         english_definitions: english_definitions, 
+                                         part_of_speech: part_of_speech});
+    });
 }
