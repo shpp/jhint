@@ -10,9 +10,9 @@ if (window == top) {
 function doKeyPress(e) {
 	if (e.keyCode == trigger_key) {
 	 	var sel = window.getSelection().toString();
-
+	 	var message = encodeURI(sel);
 	 	if (sel.length) {
-	 		chrome.extension.sendRequest({message: sel});
+	 		chrome.extension.sendRequest({message: message});
 	 	}
 
 	}
