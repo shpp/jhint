@@ -67,4 +67,5 @@
 a.jhint_boxclose:hover {
   color: white;
   background-color: #8abc83;
+  text-decoration: none;
 }
