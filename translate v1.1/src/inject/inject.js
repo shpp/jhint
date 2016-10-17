@@ -33,7 +33,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
   request.english_definitions = request.english_definitions ? request.english_definitions.join(', ') : '';
   request.reading = request.reading || '';
   request.word = request.word || '';
-  request.part_of_speech = request.part_of_speech || 'noun';
+  request.parts_of_speech = request.parts_of_speech || 'noun';
 
   var $character = $('<ruby>').text(request.word).append($('<rt>').text(request.reading));
 
@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
     .append($('<a>').addClass("jhint_boxclose").attr("id", "jhint_boxclose"))
     .append($('<p>').append($character))
 	  .append($('<p>').text(request.english_definitions))
-  	.append($('<p>').append($('<span class="jhint_partOfSpeech">').text(request.part_of_speech)))
+  	.append($('<p>').append($('<span class="jhint_partOfSpeech">').text(request.parts_of_speech)))
   	.append($('<p>').append($('<a>').attr("href","http://jisho.org/").text('jisho.org')));
 
   $newDiv.append($contentDiv);

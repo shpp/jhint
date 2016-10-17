@@ -22,7 +22,7 @@ function returnMessage(current) {
   var tags = current.tags[0];
   var senses = current.senses[0];
   var english_definitions = senses.english_definitions;
-  var part_of_speech = senses.part_of_speech;
+  var parts_of_speech = senses.parts_of_speech;
 
   chrome.tabs.getSelected(null, function(tab) {
     chrome.tabs.sendMessage(tab.id, {
@@ -30,7 +30,7 @@ function returnMessage(current) {
       reading: japanese.reading,
       tags: tags,
       english_definitions: english_definitions,
-      part_of_speech: part_of_speech
+      parts_of_speech: parts_of_speech
     });
   });
 }
