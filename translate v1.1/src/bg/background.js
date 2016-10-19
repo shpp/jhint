@@ -8,8 +8,7 @@ chrome.extension.onRequest.addListener(function(request, sender) {
     if (jax.readyState == 4) {
       var responseText = jax.responseText;
       var responseObject = JSON.parse(responseText);
-      var data = responseObject.data;
-      console.log(data);
+      var data = responseObject.data;      
       var current = data[0];
 
       returnMessage(current);

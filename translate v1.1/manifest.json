@@ -1,8 +1,8 @@
 {
-  "name": "Jisho extension",
+  "name": "Jhint",
   "version": "0.0.2",
   "manifest_version": 2,
-  "description": "This extension was created with the awesome extensionizr.com",
+  "description": "Translation of the Japanese words into English  and translation of English words into Japanese",
   "homepage_url": "http://extensionizr.com",
   "icons": {
     "16": "icons/icon16.png",
@@ -16,7 +16,7 @@
   },
   "browser_action": {
     "default_icon": "icons/icon19.png",
-    "default_title": "Jisho extension",
+    "default_title": "Jhint",
     "default_popup": "src/browser_action/browser_action.html"
   },
   "permissions": [
