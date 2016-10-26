@@ -24,25 +24,38 @@ function createPopupWindow(event) {
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender) {
+  $('#jhint_newDiv').remove();
+
  	var $newDiv = $('<div>');
  	var $contentDiv = $('<div>');
 
  	$contentDiv.attr("id", "jhint_contentDiv");
  	$newDiv.attr("id", "jhint_newDiv");
 
-  request.english_definitions = request.english_definitions ? request.english_definitions.join(', ') : '';
-  request.reading = request.reading || '';
-  request.word = request.word || '';
-  request.parts_of_speech = request.parts_of_speech || 'noun';
+  var english_definitions = request.english_definitions ? request.english_definitions.join(', ') : '';
+  var reading = request.reading || '';
+  var word = request.word || '';
+  var parts_of_speech = request.parts_of_speech || [];
 
-  var $character = $('<ruby>').text(request.word).append($('<rt>').text(request.reading));
+  var $character = $('<ruby>').text(word).append($('<rt>').text(reading));
+  var $parts_of_speech = parts_of_speech.length && $('<p>');
+
+  parts_of_speech.map(function (item) {
+    $parts_of_speech.append($('<span class="jhint_partOfSpeech">').text(item));
+  });
 
 	$contentDiv
     .append($('<a>').addClass("jhint_boxclose").attr("id", "jhint_boxclose"))
     .append($('<p>').append($character))
-	  .append($('<p>').text(request.english_definitions))
-  	.append($('<p>').append($('<span class="jhint_partOfSpeech">').text(request.parts_of_speech)))
-  	.append($('<p>').append($('<a>').attr("href","http://jisho.org/").text('jisho.org')));
+	  .append($('<p>').text(english_definitions))
+  	.append($parts_of_speech)
+  	.append($('<p>')
+      .append($('<a>')
+        .attr("target", "_blank")
+        .attr("href", "http://jisho.org/search/" + word)
+        .text('jisho.org')
+      )
+    );
 
   $newDiv.append($contentDiv);
 
