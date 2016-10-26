@@ -2,13 +2,13 @@ chrome.extension.onRequest.addListener(function(request, sender) {
   var words = request.message;
   var jax = new XMLHttpRequest();
 
-  jax.open("GET","http://jisho.org/api/v1/search/words?keyword=" + words); 
+  jax.open("GET","http://jisho.org/api/v1/search/words?keyword=" + words);
   jax.send();
   jax.onreadystatechange = function() {
     if (jax.readyState == 4) {
       var responseText = jax.responseText;
       var responseObject = JSON.parse(responseText);
-      var data = responseObject.data;      
+      var data = responseObject.data;
       var current = data[0];
 
       returnMessage(current);
