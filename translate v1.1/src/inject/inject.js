@@ -3,15 +3,15 @@ var positionX = 0;
 var positionY = 0;
 
 const cardId = "jhint_newDiv";
-var close_on_clicking_outside = true;
+var close_on_clicking_outside = false;
 
 if (window == top) {
     window.addEventListener('keyup', doKeyPress, false);
     window.addEventListener('mouseup', createPopupWindow, false);
     // Close card on all clicks (except prevented when click lands within card
     // itself).
-    if(close_on_clicking_outside) {
-      window.addEventListener('click', removeCard, false);
+    if (close_on_clicking_outside) {
+        window.addEventListener('click', removeCard, false);
     }
 }
 
