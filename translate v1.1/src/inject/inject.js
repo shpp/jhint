@@ -3,7 +3,7 @@ var positionX = 0;
 var positionY = 0;
 
 const cardId = "jhint_newDiv";
-var close_on_clicking_outside = false;
+var close_on_clicking_outside = true;
 
 if (window == top) {
     window.addEventListener('keyup', doKeyPress, false);
