@@ -33,3 +33,24 @@ function returnMessage(current) {
     });
   });
 }
+
+function invokeSearch() {
+  var sel = window.getSelection().toString();
+  if (!sel.length) return;
+  chrome.extension.sendRequest({
+    message: encodeURI(sel)
+  });
+}
+
+function getJsCode(func) {
+  return ';(' + func + ')();';
+}
+
+chrome.commands.onCommand.addListener(function (command) {
+  if (command == "invoke-inpage-search") {
+    chrome.tabs.executeScript({
+      code: getJsCode(invokeSearch),
+      allFrames: true
+    })
+  }
+})

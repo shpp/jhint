@@ -43,5 +43,13 @@
         "js/jquery/jquery.js"
       ]
     }
-  ]
+  ],
+  "commands":{
+    "invoke-inpage-search": {
+      "suggested_key": {
+        "default": "Alt+Shift+J"
+      },
+      "description": "Extra key combination to invoke in-page search"
+    }
+  }
 }
