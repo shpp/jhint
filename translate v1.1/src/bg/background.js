@@ -33,3 +33,16 @@ function returnMessage(current) {
     });
   });
 }
+
+
+function searchJishoOrg(word) {
+  var query = word.selectionText;
+  chrome.tabs.create({url: `https://jisho.org/search/${query}`})
+};
+
+chrome.contextMenus.create({
+  title: "Search jisho.org",
+  contexts: ["selection"],
+  onclick: searchJishoOrg
+});
+
