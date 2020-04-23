@@ -4,6 +4,7 @@ var positionY = 0;
 
 const cardId = "jhint_newDiv";
 var close_on_clicking_outside = true;
+var close_on_key = 27; // ESC
 
 if (window == top) {
     window.addEventListener('keyup', doKeyPress, false);
@@ -29,6 +30,11 @@ function removeCard(event) {
 }
 
 function doKeyPress(e) {
+    if (e.keyCode == close_on_key) {
+        removeCard();
+        e.stopPropagation();
+        return
+    }
     if (e.keyCode == trigger_key) {
         var sel = window.getSelection().toString();
         var message = encodeURI(sel);
